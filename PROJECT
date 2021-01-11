@@ -1,0 +1,8 @@
+domain: metricsadvisor.ai
+multigroup: true
+repo: multitenancy.metricsadvisor.ai/apiservice
+resources:
+- group: multitenancy
+  kind: ApiService
+  version: v1
+version: "2"
