@@ -66,8 +66,8 @@ type ApiServiceStatus struct {
 	// Important: Run "make" to regenerate code after modifying this file
 }
 
-// +kubebuilder:object:root=true
 // +genclient
+// +kubebuilder:object:root=true
 type ApiService struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
