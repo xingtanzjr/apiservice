@@ -1439,10 +1439,6 @@ spec:
                                   - containerPort
                                   type: object
                                 type: array
-                                x-kubernetes-list-map-keys:
-                                - containerPort
-                                - protocol
-                                x-kubernetes-list-type: map
                               readinessProbe:
                                 description: 'Periodic probe of container service
                                   readiness. Container will be removed from service
@@ -3911,10 +3907,6 @@ spec:
                                   - containerPort
                                   type: object
                                 type: array
-                                x-kubernetes-list-map-keys:
-                                - containerPort
-                                - protocol
-                                x-kubernetes-list-type: map
                               readinessProbe:
                                 description: 'Periodic probe of container service
                                   readiness. Container will be removed from service
@@ -6916,10 +6908,6 @@ spec:
                     - port
                     type: object
                   type: array
-                  x-kubernetes-list-map-keys:
-                  - port
-                  - protocol
-                  x-kubernetes-list-type: map
                 publishNotReadyAddresses:
                   description: publishNotReadyAddresses indicates that any agent which
                     deals with endpoints for this Service should disregard any indications
@@ -7000,7 +6988,7 @@ spec:
                     info: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types'
                   type: string
               type: object
-            virtualService:
+            virtualServiceSpec:
               description: Spec for istio virtual service
               properties:
                 gateways:

@@ -8,23 +8,28 @@ import (
 	asClient "multitenancy.metricsadvisor.ai/apiservice/generated/multitenancy/clientset/versioned"
 	asInformer "multitenancy.metricsadvisor.ai/apiservice/generated/multitenancy/informers/externalversions/multitenancy/v1"
 	asLister "multitenancy.metricsadvisor.ai/apiservice/generated/multitenancy/listers/multitenancy/v1"
+
+	istioClient "istio.io/client-go/pkg/clientset/versioned"
 )
 
 type ClusterTool struct {
-	clusterId string
+	ClusterId string
 
 	// Scalfold for ApiService
-	apiServiceLister   asLister.ApiServiceLister
-	apiServiceClient   asClient.Clientset
-	apiServiceInformer asInformer.ApiServiceInformer
+	ApiServiceLister   asLister.ApiServiceLister
+	ApiServiceClient   *asClient.Clientset
+	ApiServiceInformer asInformer.ApiServiceInformer
 
 	// Scalfold for basic kubernetes resources
-	deploymentLister         appsListers.DeploymentLister
-	serviceLister            coreLister.ServiceLister
-	serviceAccountLister     coreLister.ServiceAccountLister
-	roleLister               rbacLister.RoleLister
-	roleBindingLister        rbacLister.RoleBindingLister
-	clusterRoleLister        rbacLister.ClusterRoleLister
-	clusterRoleBindingLister rbacLister.ClusterRoleBindingLister
-	kubeClient               kubernetes.Clientset
+	DeploymentLister         appsListers.DeploymentLister
+	ServiceLister            coreLister.ServiceLister
+	ServiceAccountLister     coreLister.ServiceAccountLister
+	RoleLister               rbacLister.RoleLister
+	RoleBindingLister        rbacLister.RoleBindingLister
+	ClusterRoleLister        rbacLister.ClusterRoleLister
+	ClusterRoleBindingLister rbacLister.ClusterRoleBindingLister
+	KubeClient               *kubernetes.Clientset
+
+	// Istio scalfold
+	IstioClient *istioClient.Clientset
 }
