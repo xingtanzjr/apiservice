@@ -27,7 +27,8 @@ import (
 type ApiServiceSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-
+	TotalReplicas  *int32                `json:"totalReplicas"`
+	ReplicaPolicy  string                `json:"replicaPolicy"`
 	DeploymentSpec appsv1.DeploymentSpec `json:"deploymentSpec"`
 	ServiceSpec    corev1.ServiceSpec    `json:"serviceSpec"`
 	// +optional

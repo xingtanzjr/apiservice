@@ -6582,6 +6582,8 @@ spec:
               - maxReplicas
               - scaleTargetRef
               type: object
+            replicaPolicy:
+              type: string
             roleBindingKind:
               description: Spec for role-bindings
               type: string
@@ -6988,6 +6990,11 @@ spec:
                     info: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types'
                   type: string
               type: object
+            totalReplicas:
+              description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
+                Important: Run "make" to regenerate code after modifying this file'
+              format: int32
+              type: integer
             virtualServiceSpec:
               description: Spec for istio virtual service
               properties:
@@ -7046,7 +7053,9 @@ spec:
               type: object
           required:
           - deploymentSpec
+          - replicaPolicy
           - serviceSpec
+          - totalReplicas
           type: object
         status:
           type: object

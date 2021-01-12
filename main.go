@@ -27,11 +27,11 @@ var clusterMap = map[string]string{
 var apiServiceInformerFactoryList []asInformerFactory.SharedInformerFactory
 var kubeInformerFactoryList []kubeinformers.SharedInformerFactory
 
-func buildClusterTool() (map[string]components.ClusterTool, error) {
+func buildClusterTool() (map[string]*components.ClusterTool, error) {
 
-	clusterToolMap := make(map[string]components.ClusterTool)
+	clusterToolMap := make(map[string]*components.ClusterTool)
 
-	for clusterId, _ := range clusterMap {
+	for clusterId := range clusterMap {
 		cfg, err := getConfigByClusterId(clusterId)
 		if err != nil {
 			return nil, fmt.Errorf("Failed to fetch kubernetes config for cluster %s. Reason: %s", clusterId, err.Error())
@@ -60,7 +60,7 @@ func buildClusterTool() (map[string]components.ClusterTool, error) {
 			return nil, fmt.Errorf("Failed to create istio client for cluster %s, Reason: %s", clusterId, err.Error())
 		}
 
-		clusterToolMap[clusterId] = components.ClusterTool{
+		clusterToolMap[clusterId] = &components.ClusterTool{
 			ClusterId: clusterId,
 
 			ApiServiceLister:   apiServiceInformerFactory.Multitenancy().V1().ApiServices().Lister(),
@@ -87,7 +87,7 @@ func getConfigByClusterId(clusterId string) (*restclient.Config, error) {
 	return cfg, err
 }
 
-func startAndWaitInforms(stopCh chan struct{}) error {
+func startAndWaitInforms(stopCh <-chan struct{}) error {
 	// Start all informers by its factory
 	klog.Info("Starting all informers")
 	for _, informer := range apiServiceInformerFactoryList {
@@ -123,7 +123,7 @@ func startAndWaitInforms(stopCh chan struct{}) error {
 }
 
 func main() {
-	stopCh := make(chan struct{})
+	stopCh := make(<-chan struct{})
 
 	clusterToolMap, err := buildClusterTool()
 	if err != nil {
@@ -136,5 +136,8 @@ func main() {
 		klog.Errorf("App existed because of: %s", err.Error())
 		return
 	}
-	klog.Infof("Started successfully %d", len(clusterToolMap))
+
+	apiServiceController := components.NewApiServiceController(clusterToolMap)
+	apiServiceController.Run(1, stopCh)
+	// close(stopCh)
 }
